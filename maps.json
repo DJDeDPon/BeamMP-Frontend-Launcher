@@ -1,0 +1,47 @@
+[
+  {
+    "Name": "Gridmap V2",
+    "Path": "/levels/gridmap_v2/info.json",
+    "Preview": "Assets/gridmap_v2.jpg"
+  },
+  {
+    "Name": "East Coast USA",
+    "Path": "/levels/east_coast_usa/info.json",
+    "Preview": "Assets/east_coast_usa.jpg"
+  },
+  {
+    "Name": "West Coast USA",
+    "Path": "/levels/west_coast_usa/info.json",
+    "Preview": "Assets/west_coast_usa.jpg"
+  },
+  {
+    "Name": "Utah",
+    "Path": "/levels/utah/info.json",
+    "Preview": "Assets/utah.jpg"
+  },
+  {
+    "Name": "Italy",
+    "Path": "/levels/italy/info.json",
+    "Preview": "Assets/italy.jpg"
+  },
+  {
+    "Name": "Jungle Rock Island",
+    "Path": "/levels/jungle_rock_island/info.json",
+    "Preview": "Assets/jungle_rock_island.jpg"
+  },
+  {
+    "Name": "Industrial Site",
+    "Path": "/levels/industrial/info.json",
+    "Preview": "Assets/industrial.jpg"
+  },
+  {
+    "Name": "Small Island",
+    "Path": "/levels/small_island/info.json",
+    "Preview": "Assets/small_island.jpg"
+  },
+  {
+    "Name": "Derby Arenas",
+    "Path": "/levels/derby/info.json",
+    "Preview": "Assets/derby.jpg"
+  }
+]

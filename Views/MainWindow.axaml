@@ -1,0 +1,171 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:BeamMPLauncher.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="using:BeamMPLauncher.Models"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+        x:Class="BeamMPLauncher.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="BeamMP Server Launcher"
+        Width="900" Height="600"
+        WindowStartupLocation="CenterScreen"
+        Background="#1e1e1e"
+        ExtendClientAreaToDecorationsHint="True">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <Grid>
+        <!-- Background Gradient -->
+        <Border>
+             <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#2d2d2d" Offset="0"/>
+                    <GradientStop Color="#1a1a1a" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+
+        <!-- Main Content -->
+        <Grid RowDefinitions="Auto, *, Auto" Margin="30">
+            
+            <!-- Header -->
+            <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Margin="0,0,0,20">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="10">
+                   <!-- Logo Placeholder -->
+                   <Path Data="M3,3H21V19H3V3M21,1H3C1.89,1 1,1.89 1,3V19C1,20.11 1.89,21 3,21H21C22.11,21 23,20.11 23,19V3C23,1.89 22.11,1 21,1Z" 
+                         Fill="#FF6600" Width="32" Height="32" Stretch="Uniform"/>
+                   <TextBlock Text="BEAMMP SERVER" FontSize="24" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                </StackPanel>
+                
+                <Button Grid.Column="1" Command="{Binding ToggleSettingsCommand}" Background="Transparent" BorderThickness="0">
+                     <Path Data="M19.43,12.98C19.47,12.66 19.5,12.34 19.5,12C19.5,11.66 19.47,11.34 19.43,11.02L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11.02C4.53,11.34 4.5,11.66 4.5,12C4.5,12.34 4.53,12.66 4.57,12.98L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.04 4.95,18.95L7.44,17.95C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.68 16.04,18.34 16.56,17.95L19.05,18.95C19.27,19.04 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.98M12,15.5C10.07,15.5 8.5,13.93 8.5,12C8.5,10.07 10.07,8.5 12,8.5C13.93,8.5 15.5,10.07 15.5,12C15.5,13.93 13.93,15.5 12,15.5Z" 
+                           Fill="LightGray" Width="24" Height="24" Stretch="Uniform"/>
+                </Button>
+            </Grid>
+
+            <!-- Dashboard -->
+            <StackPanel Grid.Row="1" Spacing="25">
+                
+                <!-- Quick Config Row -->
+                <Grid ColumnDefinitions="*, 10, *">
+                    <StackPanel Grid.Column="0" Spacing="5">
+                        <TextBlock Text="SERVER NAME" Foreground="#AAAAAA" FontSize="12" FontWeight="SemiBold"/>
+                        <TextBox Text="{Binding Config.General.Name}" Classes="modern" 
+                                 Background="#333" Foreground="White" BorderThickness="0" CornerRadius="5" Padding="10"/>
+                    </StackPanel>
+                    
+                    <StackPanel Grid.Column="2" Spacing="5">
+                         <TextBlock Text="IP ADDRESS" Foreground="#AAAAAA" FontSize="12" FontWeight="SemiBold"/>
+                         <TextBox Text="{Binding Config.General.IP}" Watermark="localhost (::)"
+                                  Background="#333" Foreground="White" BorderThickness="0" CornerRadius="5" Padding="10"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Map Selector -->
+                <StackPanel Spacing="10">
+                     <TextBlock Text="SELECT MAP" Foreground="#AAAAAA" FontSize="12" FontWeight="SemiBold"/>
+                     
+                     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                         <ListBox ItemsSource="{Binding Maps}" SelectedItem="{Binding SelectedMap}" Background="Transparent">
+                             <ListBox.ItemsPanel>
+                                 <ItemsPanelTemplate>
+                                     <StackPanel Orientation="Horizontal" Spacing="15"/>
+                                 </ItemsPanelTemplate>
+                             </ListBox.ItemsPanel>
+                             <ListBox.ItemTemplate>
+                                 <DataTemplate x:DataType="models:MapItem">
+                                     <Border Width="200" Height="140" CornerRadius="10" ClipToBounds="True">
+                                         <Grid>
+                                             <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" VerticalAlignment="Center"/>
+                                             <!-- Gradient Overlay -->
+                                             <Border VerticalAlignment="Bottom" Height="50" Background="#99000000">
+                                                 <TextBlock Text="{Binding Name}" Foreground="White" FontWeight="Bold" 
+                                                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                             </Border>
+                                         </Grid>
+                                     </Border>
+                                 </DataTemplate>
+                             </ListBox.ItemTemplate>
+                         </ListBox>
+                     </ScrollViewer>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Footer / Launch -->
+            <Grid Grid.Row="2" ColumnDefinitions="*, Auto" Margin="0,20,0,0">
+                <TextBlock Text="{Binding StatusMessage}" VerticalAlignment="Center" Foreground="#888"/>
+                
+                <Button Grid.Column="1" Command="{Binding LaunchCommand}" 
+                        Background="{Binding LaunchButtonColor}" Foreground="White" 
+                        CornerRadius="25" Padding="30, 10" FontWeight="Bold" FontSize="16">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <Path Data="{Binding LaunchButtonIcon}" Fill="White" Width="16" Height="16" Stretch="Uniform" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding LaunchButtonText}"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Grid>
+
+        <!-- Settings Overlay -->
+        <Border Background="#1e1e1e" IsVisible="{Binding IsSettingsOpen}" Margin="0,50,0,0" CornerRadius="20 20 0 0" BoxShadow="0 -5 20 0 #55000000">
+             <Grid RowDefinitions="Auto, *">
+                 <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Margin="30,20">
+                     <TextBlock Text="Settings" FontSize="20" FontWeight="Bold" VerticalAlignment="Center"/>
+                     <Button Grid.Column="1" Command="{Binding ToggleSettingsCommand}" Content="Close" Background="Transparent" Foreground="#FF6600"/>
+                 </Grid>
+                 
+                 <ScrollViewer Grid.Row="1" Margin="30,0,30,30">
+                     <StackPanel Spacing="15">
+                         <TextBlock Text="Server Configuration" FontSize="16" FontWeight="SemiBold" Foreground="#DDD"/>
+                         
+                         <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="*, 20, *">
+                             <!-- AuthKey -->
+                             <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Spacing="5">
+                                 <TextBlock Text="AuthKey (Required)" Foreground="#AAAAAA"/>
+                                 <TextBox Text="{Binding Config.General.AuthKey}" PasswordChar="*"/>
+                             </StackPanel>
+
+                             <!-- Port -->
+                             <StackPanel Grid.Row="1" Grid.Column="0" Spacing="5" Margin="0,10,0,0">
+                                 <TextBlock Text="Port" Foreground="#AAAAAA"/>
+                                 <TextBox Text="{Binding Config.General.Port}"/>
+                             </StackPanel>
+                             
+                             <!-- Max Players -->
+                             <StackPanel Grid.Row="1" Grid.Column="2" Spacing="5" Margin="0,10,0,0">
+                                 <TextBlock Text="Max Players" Foreground="#AAAAAA"/>
+                                 <TextBox Text="{Binding Config.General.MaxPlayers}"/>
+                             </StackPanel>
+
+                             <!-- Max Cars -->
+                             <StackPanel Grid.Row="2" Grid.Column="0" Spacing="5" Margin="0,10,0,0">
+                                 <TextBlock Text="Max Cars" Foreground="#AAAAAA"/>
+                                 <TextBox Text="{Binding Config.General.MaxCars}"/>
+                             </StackPanel>
+
+                             <!-- Private -->
+                             <CheckBox Grid.Row="2" Grid.Column="2" IsChecked="{Binding Config.General.Private}" Content="Private Server" Margin="0,25,0,0"/>
+                             
+                             <!-- Resource Folder -->
+                             <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Spacing="5" Margin="0,10,0,0">
+                                 <TextBlock Text="Resource Folder" Foreground="#AAAAAA"/>
+                                 <TextBox Text="{Binding Config.General.ResourceFolder}"/>
+                             </StackPanel>
+
+                             <!-- Description -->
+                             <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Spacing="5" Margin="0,10,0,0">
+                                 <TextBlock Text="Description" Foreground="#AAAAAA"/>
+                                 <TextBox Text="{Binding Config.General.Description}" Height="60" AcceptsReturn="True"/>
+                             </StackPanel>
+                         </Grid>
+                     </StackPanel>
+                 </ScrollViewer>
+             </Grid>
+        </Border>
+    </Grid>
+</Window>
